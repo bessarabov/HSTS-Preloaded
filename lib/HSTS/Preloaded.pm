@@ -1,6 +1,6 @@
 package HSTS::Preloaded;
 
-# ABSTRACT: Inspect Chrome's HSTS preloaded list
+# ABSTRACT: inspect Chrome's HSTS preloaded list
 
 =encoding UTF-8
 
