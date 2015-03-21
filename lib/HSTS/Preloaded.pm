@@ -28,7 +28,11 @@ use Carp;
 use HTTP::Tiny;
 use JSON::PP;
 
-=head1 new
+=head1 METHODS
+
+=cut
+
+=head2 new
 
     my $h = HSTS::Preloaded->new();
 
@@ -56,7 +60,7 @@ sub new {
     return $self;
 }
 
-=head1 host_is_in_hsts_preloaded_list
+=head2 host_is_in_hsts_preloaded_list
 
     my $result = $h->host_is_in_hsts_preloaded_list( $host );
 
@@ -78,7 +82,7 @@ sub host_is_in_hsts_preloaded_list {
     return !!$self->{_hosts}->{$host};
 }
 
-=head1 get_all_hsts_preloaded_list_data
+=head2 get_all_hsts_preloaded_list_data
 
     my $data = $h->get_all_hsts_preloaded_list_data();
 
