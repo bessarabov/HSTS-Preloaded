@@ -13,7 +13,7 @@ This is a library to work with Chrome's HSTS preloaded list.
 One can submit hosts for inclusion to the list with the form L<https://hstspreload.appspot.com/>.
 
 And in the source code of Chromium one can see the list of hosts that are
-currently in the list: L<https://code.google.com/p/chromium/codesearch#chromium/src/net/http/transport_security_state_static.json>
+currently in the list: L<https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json>
 
 This library simplifies the work with the preloaded list.
 
@@ -27,6 +27,7 @@ use open qw(:std :utf8);
 use Carp;
 use HTTP::Tiny;
 use JSON::PP;
+use MIME::Base64;
 
 =head1 METHODS
 
@@ -137,9 +138,12 @@ I'm not sure if it is a preffered way of finding this data.
 sub _get_data_with_hsts_preloaded_list {
     my ($self) = @_;
 
-    my $url = 'https://git.chromium.org/gitweb/?p=chromium/src/net.git;a=blob_plain;f=http/transport_security_state_static.json;hb=HEAD';
+    # The only way to download raw content is to download base64-encoded file
+    # https://code.google.com/p/gitiles/issues/detail?id=7
 
-    my $content = $self->_get_content_from_url( $url );
+    my $url = 'https://chromium.googlesource.com/chromium/src/+/master/net/http/transport_security_state_static.json?format=TEXT';
+    my $base64_content = $self->_get_content_from_url( $url );
+    my $content = decode_base64 $base64_content;
     my $json = $self->_get_data_without_comments( $content );
     my $data = decode_json $json;
 
